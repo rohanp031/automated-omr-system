@@ -1,7 +1,7 @@
-# Automated OMR Evaluation System for Innomatics Research Labs
+# Automated OMR Evaluation System 
 
 ## 📝 Overview
-This project provides a complete, scalable system to automatically evaluate OMR (Optical Mark Recognition) sheets from images. Developed for Innomatics Research Labs, it addresses the challenges of manual grading for placement readiness assessments, transforming a time-consuming, error-prone, and resource-intensive process into a fast, accurate, and automated workflow.
+This project provides a complete, scalable system to automatically evaluate OMR (Optical Mark Recognition) sheets from images. It addresses the challenges of manual grading for placement readiness assessments, transforming a time-consuming, error-prone, and resource-intensive process into a fast, accurate, and automated workflow.
 
 The system is designed to process thousands of OMR sheets captured via mobile phone cameras, correcting for distortions and accurately scoring them against predefined answer keys. It provides subject-wise scores, total scores, and a user-friendly web interface for evaluators to manage the entire process, reducing the evaluation turnaround time from days to mere minutes.
 
@@ -165,3 +165,4 @@ Open your web browser and go to the local URL provided by Streamlit, which is ty
   - This is almost always due to incorrect calibration. Please re-do **Step 5: Calibrate Bubble Coordinates** carefully. The accuracy of the coordinates is paramount.
 - **Error: "No answer keys found" in the app**
   - This means you haven't generated the JSON keys yet. Please run the command from **Step 4: Generate JSON Answer Keys**.
+
