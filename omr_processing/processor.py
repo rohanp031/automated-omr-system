@@ -15,35 +15,29 @@ class OMREvaluator:
         with open(answer_key_path, 'r') as f:
             self.answer_key = json.load(f)
         self.processed_data = {}
-        
-        # These coordinates are now RELATIVE to the warped 800x1000 image
-        # defined by the fiducial markers. This should be much more stable.
-        # Format: (start_x, start_y, width, height)
+        self.calibration_points = np.array([[75, 167], [934, 164], [953, 904], [49, 900]])
         self.question_blocks = [
-            (50, 150, 700, 155),  # Questions 1-20
-            (50, 315, 700, 155),  # Questions 21-40
-            (50, 480, 700, 155),  # Questions 41-60
-            (50, 645, 700, 155),  # Questions 61-80
-            (50, 810, 700, 155),  # Questions 81-100
+            (50, 150, 700, 155),
+            (50, 315, 700, 155),
+            (50, 480, 700, 155),
+            (50, 645, 700, 155),
+            (50, 810, 700, 155),
         ]
 
     def run_evaluation(self):
         try:
-            original_img, gray_img, _ = utils.preprocess_image(self.image_path)
-            
-            # 1. Find fiducial markers instead of the whole page contour
-            markers = utils.find_fiducial_markers(gray_img)
-            if markers is None:
-                raise ValueError("Could not find the 4 corner markers. Ensure the sheet is clear and well-lit.")
+            original_img = cv2.imread(self.image_path)
+            if original_img is None:
+                raise ValueError("Image could not be read.")
 
-            # 2. Apply perspective transform based on the markers
-            self.warped_image = utils.apply_perspective_transform(original_img, markers)
+           
+            self.warped_image = utils.apply_perspective_transform(original_img, self.calibration_points)
             self.warped_gray = cv2.cvtColor(self.warped_image, cv2.COLOR_BGR2GRAY)
             
-            # 3. Extract bubble choices and score
+            
             self.extract_and_score_bubbles()
             
-            # 4. Generate visual feedback on the warped image
+            
             self.create_visual_overlay()
 
             return self.processed_data, self.overlay_image
@@ -51,7 +45,8 @@ class OMREvaluator:
         except Exception as e:
             print(f"Error processing {self.image_path}: {e}")
             return None, None
-
+            
+    
     def extract_and_score_bubbles(self):
         detected_answers = {}
         total_score = 0
