@@ -1,6 +1,6 @@
 # Automated OMR Evaluation System
 
-## Deployed Link - [text](https://automated-omr-system-ifl.streamlit.app/)
+## Deployed Link - https://automated-omr-system-ifl.streamlit.app/
 ## 📝 Overview
 This project provides a scalable, automated system for evaluating Optical Mark Recognition (OMR) sheets from images. It transforms the manual, error-prone, and time-consuming grading process for placement readiness assessments into a fast, accurate, and efficient workflow.
 
