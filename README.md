@@ -54,12 +54,37 @@ The end-to-end process is simple and efficient:
 - **OpenCV**: Image preprocessing, contour detection, perspective correction, and bubble analysis.
 - **NumPy**: High-performance numerical operations on image arrays.
 
-### Web Application & Data Handling
-- **Streamlit**: Interactive front-end for evaluators.
-- **Pandas**: Organizes results into DataFrames for display and CSV export.
+### Web Application & Data Handling:
+- **Streamlit**: A rapid application development framework used to build the interactive front-end for evaluators.
+- **Pandas**: Used for organizing the final results into a structured DataFrame for display and CSV export.
 
-## 🚀 Setup and Installation
-Follow these steps to set up the system locally.
+## 📁 Project Structure
+The codebase is organized into distinct modules for clarity and maintainability.
+
+```
+automated-omr-system/
+|-- omr_processing/        # Core computer vision logic
+|   |-- __init__.py        # Makes the directory a Python package
+|   |-- processor.py       # Main evaluation pipeline class
+|   |-- utils.py           # Image processing helper functions
+|   |-- omr_template.png   # CRITICAL: Your blank OMR sheet template
+|
+|-- web_app/               # Streamlit application
+|   |-- app.py             # The web app code
+|   |-- answer_keys/       # Folder for generated JSON answer keys
+|   |-- uploads/           # Temporarily stores uploaded images
+|   |-- results/           # Stores all output files (images, JSON, CSV)
+|
+|-- scripts/               # Helper scripts for data preparation
+|   |-- convert_keys.py    # Script to convert CSV keys to JSON
+|   |-- source_keys/       # Folder for your raw answer key CSV files
+|
+|-- requirements.txt       # Python dependencies
+|-- README.md              # This file
+```
+
+## 🚀 Setup and Installation Guide
+Follow these steps to get the system running on your local machine.
 
 ### Prerequisites
 - Python 3.8 or higher.
