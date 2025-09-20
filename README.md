@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Automated OMR Evaluation System
 
 ## 📝 Overview
