@@ -50,6 +50,10 @@ class OMREvaluator:
             row_h = h // QUESTIONS_PER_SUBJECT
             
             for i in range(QUESTIONS_PER_SUBJECT):
+                # We check the question counter to ensure we don't process more than 100 questions
+                if question_counter > TOTAL_QUESTIONS:
+                    break
+                
                 row_y_start = i * row_h
                 row_roi = block_roi[row_y_start:row_y_start+row_h, :]
                 thresh = cv2.threshold(row_roi, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
@@ -108,7 +112,12 @@ class OMREvaluator:
         self.overlay_image = self.warped_image.copy()
         if not self.processed_data.get("detected_answers"):
             return
+        
         for q_num, data in self.processed_data["detected_answers"].items():
+            # This is the FIX: Calculate block_idx based on the current question number
+            block_idx = (q_num - 1) // QUESTIONS_PER_SUBJECT
+            if block_idx >= len(self.question_blocks): continue # Safety check
+
             correct_answer_char = data["correct"]
             correct_answer_index = {"A": 0, "B": 1, "C": 2, "D": 3}.get(correct_answer_char, -1)
             marked_answer_char = data["marked"]
@@ -117,7 +126,7 @@ class OMREvaluator:
             q_in_block = (q_num - 1) % QUESTIONS_PER_SUBJECT
             row_h = (self.question_blocks[block_idx][3] / QUESTIONS_PER_SUBJECT)
             
-            if len(data["coords"]) != TOTAL_OPTIONS:
+            if len(data.get("coords", [])) != TOTAL_OPTIONS:
                 continue
 
             if correct_answer_index != -1:
