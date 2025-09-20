@@ -9,7 +9,7 @@ QUESTIONS_PER_SUBJECT = 20
 NUM_SUBJECTS = 5
 
 
-BUBBLE_THRESHOLD_RATIO = 0.15 
+BUBBLE_THRESHOLD_RATIO = 0.01
 
 class OMREvaluator:
     def __init__(self, image_path, answer_key_path):
