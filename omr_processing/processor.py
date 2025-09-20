@@ -15,25 +15,35 @@ class OMREvaluator:
         with open(answer_key_path, 'r') as f:
             self.answer_key = json.load(f)
         self.processed_data = {}
+        
+        # These coordinates are now RELATIVE to the warped 800x1000 image
+        # defined by the fiducial markers. This should be much more stable.
+        # Format: (start_x, start_y, width, height)
         self.question_blocks = [
-            (65, 190, 680, 140),
-            (65, 340, 680, 140),
-            (65, 490, 680, 140),
-            (65, 640, 680, 140),
-            (65, 790, 680, 140),
+            (50, 150, 700, 155),  # Questions 1-20
+            (50, 315, 700, 155),  # Questions 21-40
+            (50, 480, 700, 155),  # Questions 41-60
+            (50, 645, 700, 155),  # Questions 61-80
+            (50, 810, 700, 155),  # Questions 81-100
         ]
 
     def run_evaluation(self):
         try:
-            original_img, gray_img, edged_img = utils.preprocess_image(self.image_path)
-            doc_contour = utils.find_document_contour(edged_img)
-            if doc_contour is None:
-                raise ValueError("Could not find OMR sheet contour.")
+            original_img, gray_img, _ = utils.preprocess_image(self.image_path)
+            
+            # 1. Find fiducial markers instead of the whole page contour
+            markers = utils.find_fiducial_markers(gray_img)
+            if markers is None:
+                raise ValueError("Could not find the 4 corner markers. Ensure the sheet is clear and well-lit.")
 
-            self.warped_image = utils.apply_perspective_transform(original_img, doc_contour)
+            # 2. Apply perspective transform based on the markers
+            self.warped_image = utils.apply_perspective_transform(original_img, markers)
             self.warped_gray = cv2.cvtColor(self.warped_image, cv2.COLOR_BGR2GRAY)
             
+            # 3. Extract bubble choices and score
             self.extract_and_score_bubbles()
+            
+            # 4. Generate visual feedback on the warped image
             self.create_visual_overlay()
 
             return self.processed_data, self.overlay_image
