@@ -4,8 +4,6 @@ import sys
 import os
 
 # --- CONFIGURATION ---
-# 1. Path to a sample OMR sheet image you want to calibrate
-#    IMPORTANT: Replace this with a valid path to one of your OMR images
 IMAGE_PATH = "omr_processing\Img7.jpeg" 
 
 
