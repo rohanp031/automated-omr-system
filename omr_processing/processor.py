@@ -7,7 +7,9 @@ TOTAL_QUESTIONS = 100
 TOTAL_OPTIONS = 4
 QUESTIONS_PER_SUBJECT = 20
 NUM_SUBJECTS = 5
-BUBBLE_THRESHOLD_RATIO = 0.45 
+
+
+BUBBLE_THRESHOLD_RATIO = 0.30 
 
 class OMREvaluator:
     def __init__(self, image_path, answer_key_path):
@@ -15,7 +17,11 @@ class OMREvaluator:
         with open(answer_key_path, 'r') as f:
             self.answer_key = json.load(f)
         self.processed_data = {}
+        
+        
         self.calibration_points = np.array([[75, 167], [934, 164], [953, 904], [49, 900]])
+       
+
         self.question_blocks = [
             (50, 150, 700, 155),
             (50, 315, 700, 155),
@@ -30,14 +36,10 @@ class OMREvaluator:
             if original_img is None:
                 raise ValueError("Image could not be read.")
 
-           
             self.warped_image = utils.apply_perspective_transform(original_img, self.calibration_points)
             self.warped_gray = cv2.cvtColor(self.warped_image, cv2.COLOR_BGR2GRAY)
             
-            
             self.extract_and_score_bubbles()
-            
-            
             self.create_visual_overlay()
 
             return self.processed_data, self.overlay_image
@@ -45,8 +47,7 @@ class OMREvaluator:
         except Exception as e:
             print(f"Error processing {self.image_path}: {e}")
             return None, None
-            
-    
+
     def extract_and_score_bubbles(self):
         detected_answers = {}
         total_score = 0
@@ -67,7 +68,8 @@ class OMREvaluator:
                 for c in contours:
                     (cx, cy, cw, ch) = cv2.boundingRect(c)
                     aspect_ratio = cw / float(ch)
-                    if 15 < cw < 35 and 15 < ch < 35 and 0.8 < aspect_ratio < 1.2:
+                    # ADJUSTED: Widened the accepted aspect ratio and size range for bubbles
+                    if 12 < cw < 40 and 12 < ch < 40 and 0.75 < aspect_ratio < 1.25:
                         bubble_contours.append(c)
                 
                 if len(bubble_contours) != TOTAL_OPTIONS:
@@ -90,7 +92,7 @@ class OMREvaluator:
                 
                 (cx, cy, cw, ch) = cv2.boundingRect(bubble_contours[marked_bubble_index])
                 bubble_area = cw * ch
-                fill_ratio = max_filled / float(bubble_area)
+                fill_ratio = max_filled / float(bubble_area) if bubble_area > 0 else 0
 
                 marked_answer = -1
                 if fill_ratio > BUBBLE_THRESHOLD_RATIO:
