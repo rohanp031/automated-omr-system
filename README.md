@@ -59,31 +59,6 @@ The system is built with a powerful and efficient stack of open-source technolog
 - **Streamlit**: A rapid application development framework used to build the interactive front-end for evaluators.
 - **Pandas**: Used for organizing the final results into a structured DataFrame for display and CSV export.
 
-## 📁 Project Structure
-The codebase is organized into distinct modules for clarity and maintainability.
-
-```
-automated-omr-system/
-|-- omr_processing/        # Core computer vision logic
-|   |-- __init__.py        # Makes the directory a Python package
-|   |-- processor.py       # Main evaluation pipeline class
-|   |-- utils.py           # Image processing helper functions
-|   |-- omr_template.png   # CRITICAL: Your blank OMR sheet template
-|
-|-- web_app/               # Streamlit application
-|   |-- app.py             # The web app code
-|   |-- answer_keys/       # Folder for generated JSON answer keys
-|   |-- uploads/           # Temporarily stores uploaded images
-|   |-- results/           # Stores all output files (images, JSON, CSV)
-|
-|-- scripts/               # Helper scripts for data preparation
-|   |-- convert_keys.py    # Script to convert CSV keys to JSON
-|   |-- source_keys/       # Folder for your raw answer key CSV files
-|
-|-- requirements.txt       # Python dependencies
-|-- README.md              # This file
-```
-
 ## 🚀 Setup and Installation Guide
 Follow these steps to get the system running on your local machine.
 
