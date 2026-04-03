@@ -1,6 +1,6 @@
 # Automated OMR Evaluation System
 
-## 📝 Overview
+## Overview
 This project provides a scalable, automated system for evaluating Optical Mark Recognition (OMR) sheets from images. It transforms the manual, error-prone, and time-consuming grading process for placement readiness assessments into a fast, accurate, and efficient workflow.
 
 Designed to process thousands of OMR sheets captured via mobile phone cameras, the system corrects distortions and scores sheets against predefined answer keys. It offers subject-wise and total scores through a user-friendly web interface, reducing evaluation time from days to minutes.
