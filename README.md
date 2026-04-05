@@ -115,14 +115,6 @@ Navigate to the `web_app` directory:
 cd web_app
 ```
 
-Launch the Streamlit app:
-
-```bash
-streamlit run app.py
-```
-
-Open the provided URL (typically `http://localhost:8501`) in your browser.
-
 ### Using the Web Interface
 1. **Select Key**: Choose the answer key version (e.g., Set A) from the sidebar.
 2. **Upload**: Drag and drop OMR sheet images or use the file browser.
